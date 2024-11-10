@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"3tXvy":[function(require,module,exports) {
+})({"km5uZ":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -594,7 +594,7 @@ const createCard = ()=>{
     }, "John Doe");
     const cardExpiryDisplay = (0, _redom.el)("span", {
         className: "card__date"
-    }, "MM/YY");
+    }, "04/24");
     const updateDisplay = (input, displayElement, placeholder)=>{
         displayElement.textContent = input.value || placeholder;
     };
@@ -618,7 +618,13 @@ const createCard = ()=>{
     }, "Card Holder"), (0, _redom.el)("input", {
         className: "input input__holder",
         type: "text",
-        oninput: (e)=>updateDisplay(e.target, cardHolderDisplay, "John Doe")
+        maxlength: 30,
+        oninput: (e)=>{
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+            if (e.target.value.length > 30) e.target.value = e.target.value.slice(0, 30);
+            e.target.value = e.target.value.replace(/\b\w/g, (char)=>char.toUpperCase());
+            updateDisplay(e.target, cardHolderDisplay, "John Doe");
+        }
     })), (0, _redom.el)("div", {
         className: "form__input-wrap form__input-wrap_number"
     }, (0, _redom.el)("label", {
@@ -626,6 +632,12 @@ const createCard = ()=>{
     }, "Card Number"), (0, _redom.el)("input", {
         className: "input input__number",
         type: "text",
+        onfocus: (e)=>{
+            e.target.placeholder = "xxxx xxxx xxxx xxxx";
+        },
+        onblur: (e)=>{
+            e.target.placeholder = "";
+        },
         oninput: (e)=>{
             let value = e.target.value.replace(/\D/g, "");
             if (value.length > 16) value = value.slice(0, 16);
@@ -644,7 +656,7 @@ const createCard = ()=>{
             if (value.length > 4) value = value.slice(0, 4);
             if (value.length >= 3) value = value.replace(/(\d{2})(\d{1,2})/, "$1/$2");
             e.target.value = value;
-            updateDisplay(e.target, cardExpiryDisplay, "MM/YY");
+            updateDisplay(e.target, cardExpiryDisplay, "04/24");
         }
     })), (0, _redom.el)("div", {
         className: "form__input-wrap form__input-wrap_cvv"
@@ -653,10 +665,17 @@ const createCard = ()=>{
     }, "CVV"), (0, _redom.el)("input", {
         className: "input input__cvv",
         type: "text",
+        maxlength: 3,
+        onfocus: (e)=>{
+            e.target.value = "";
+            e.target.placeholder = "___";
+        },
+        onblur: (e)=>{
+            if (!e.target.value) e.target.placeholder = "";
+        },
         oninput: (e)=>{
-            let value = e.target.value.replace(/\D/g, "");
+            const value = e.target.value.replace(/\D/g, "");
             e.target.value = value.slice(0, 3);
-            updateDisplay(e.target, cardCvvDisplay, "CVV");
         }
     })), (0, _redom.el)("button", {
         className: "form__button",
@@ -1170,6 +1189,6 @@ const createCard = ()=>{
     exports1.viewFactory = viewFactory;
 });
 
-},{}]},["3tXvy","bB7Pu"], "bB7Pu", "parcelRequirea9e5")
+},{}]},["km5uZ","bB7Pu"], "bB7Pu", "parcelRequirea9e5")
 
 //# sourceMappingURL=index.3d214d75.js.map
